@@ -6,12 +6,82 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Nest AI</title>
 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+        integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link href="./css/output.css" rel="stylesheet">
 </head>
 
-<body>
-    <h1 class="text-red-500 text-center">Nest Pass AI</h1>
-    <h6 class="text-center text-secondary">by Nests Hostels</h6>
+<body class="">
+    <!-- Chatbot Toggler -->
+    <button id="chatbot-toggler">
+        <span class="">
+            <img class="chatbot-logo" src="./img/nest-chatbot_white.png" alt="Chatbot Logo" width="33" height="33">
+        </span>
+        <span class="">
+            <img class="chatbot-logo" src="./img/nest-chatbot_white.png" alt="Chatbot Logo" width="33" height="33">
+            <!-- <i class="fa-solid fa-times"></i> -->
+        </span>
+    </button>
+
+    <div class="chatbot-popup">
+        <!-- Chatbot Header -->
+        <div class="chat-header">
+            <div class="header-info">
+                <div class="chatbot-logo">
+                    <img class="" src="./img/Group 236.png" alt="Chatbot Logo" width="55" height="55">
+                </div>
+
+                <div class="flex flex-col ml-2">
+                    <h2 class="logo-text">Germán</h2>
+                    <h6 class="text-secondary">Nests Hostels AI assistan</h6>
+                </div>
+            </div>
+
+            <button id="close-chatbot" class="">
+                <i class="fa-solid fa-minus"></i>
+            </button>
+        </div>
+
+        <!-- Chatbot Body -->
+        <div class="chat-body">
+            <div class="message bot-message">
+                <img class="bot-avatar" src="./img/Ibiza-a21caf.png" alt="Chatbot Logo" width="50" height="50">
+                </img>
+                <!-- prettier-ignore -->
+                <div class="message-text"> Hey there <br /> How can I help you today? </div>
+            </div>
+        </div>
+
+        <!-- Chatbot Footer -->
+        <div class="chat-footer">
+            <form action="#" class="chat-form">
+                <textarea placeholder="Message..." class="message-input" required></textarea>
+                <div class="chat-controls">
+                    <button type="button" id="emoji-picker" class="material-symbols-outlined">:)</button>
+                    <div class="file-upload-wrapper">
+                        <input type="file" accept="image/*" id="file-input" hidden />
+                        <img src="#" />
+                        <button type="button" id="file-upload" class="material-symbols-rounded">
+                            <i class="fa-solid fa-archive"></i>
+                        </button>
+                        <button type="button" id="file-cancel" class="material-symbols-rounded">
+                            <i class="fa-solid fa-times"></i>
+                        </button>
+                    </div>
+                    <button type="submit" id="send-message" class="material-symbols-rounded">
+                        <fa class="fa-solid fa-paper-plane"></fa>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Linking Emoji Mart script for emoji picker -->
+    <script src="https://cdn.jsdelivr.net/npm/emoji-mart@latest/dist/browser.js"></script>
+
+    <!-- Linking custom script -->
+    <script src="javascript/nest-chatbot.js"></script>
 </body>
 
 </html>
