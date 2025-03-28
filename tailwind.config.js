@@ -1,14 +1,14 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-  darkMode: 'class', // force to be always light theme cause still not have full compatibility
-  presets: [
-    // Manage Tailwind Typography's configuration in a separate file.
-    // require('./tailwind-typography.config.js'),
-  ],
+  // darkMode: 'class', // force to be always light theme cause still not have full compatibility
+  // presets: [
+  //   // Manage Tailwind Typography's configuration in a separate file.
+  //   // require('./tailwind-typography.config.js'),
+  // ],
   content: [
-    './javascript/**/*.js',
+    './javascript/*.js',
     './index.html',
-    './javascript/db/*.json',
+    './javascript/db/*.json'
   ],
   theme: {
     // Extend the default Tailwind theme.
@@ -70,17 +70,17 @@ module.exports = {
         '10xl': ['6.75rem', '7.25rem'],
       }
     },
-  },
-  plugins: [
-    // Add Tailwind Typography (via _tw fork).
-    // require('@_tw/typography'),
+  }
+  // plugins: [
+  //   // Add Tailwind Typography (via _tw fork).
+  //   // require('@_tw/typography'),
 
-    // Extract colors and widths from `theme.json`.
-    // require('@_tw/themejson'),
+  //   // Extract colors and widths from `theme.json`.
+  //   // require('@_tw/themejson'),
 
-    // Uncomment below to add additional first-party Tailwind plugins.
-    // require('@tailwindcss/forms'),
-    // require('@tailwindcss/aspect-ratio'),
-    // require('@tailwindcss/container-queries'),
-  ],
+  //   // Uncomment below to add additional first-party Tailwind plugins.
+  //   // require('@tailwindcss/forms'),
+  //   // require('@tailwindcss/aspect-ratio'),
+  //   // require('@tailwindcss/container-queries'),
+  // ],
 };
