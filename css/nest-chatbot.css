@@ -250,7 +250,7 @@ body.show-chatbot .chatbot-popup {
 
 .chat-form .message-input {
     width: 100%;
-    height: 47px;
+    height: 49px;
     outline: none;
     resize: none;
     border: none;
@@ -264,7 +264,7 @@ body.show-chatbot .chatbot-popup {
 
 .chat-form .chat-controls {
     gap: 3px;
-    height: 47px;
+    height: 49px;
     display: flex;
     padding-right: 6px;
     align-items: center;

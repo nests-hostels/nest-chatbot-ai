@@ -150,12 +150,27 @@ function startBotResponse() {
 }
 
 
-// Adjust input field height dynamically
-messageInput.addEventListener("input", () => {
+/**
+ * Adjust input field height dynamically
+ */
+// Create a reusable function for adjusting textarea height
+function adjustInputHeight() {
+    // Reset height to initial to get accurate scrollHeight measurement
     messageInput.style.height = `${initialInputHeight}px`;
+    // Set height based on content
     messageInput.style.height = `${messageInput.scrollHeight}px`;
-    document.querySelector(".chat-form").style.borderRadius = messageInput.scrollHeight > initialInputHeight ? "15px" : "32px";
-});
+    // Adjust the border radius based on height
+    document.querySelector(".chat-form").style.borderRadius =
+        messageInput.scrollHeight > initialInputHeight ? "15px" : "32px";
+}
+
+// Call the function on page load to handle any existing content
+window.addEventListener("DOMContentLoaded", adjustInputHeight);
+
+// Call the function whenever input changes
+messageInput.addEventListener("input", adjustInputHeight);
+
+
 
 // Handle Enter key press for sending messages
 messageInput.addEventListener("keydown", (e) => {
