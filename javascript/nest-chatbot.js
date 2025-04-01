@@ -33,8 +33,7 @@ const userData = {
 
 // Store chat history
 const chatHistory = [];
-const initialInputHeight = messageInput.scrollHeight;
-console.info(initialInputHeight);
+const initialInputHeight = 49;
 
 // Create message element with dynamic classes and return it
 const createMessageElement = (content, ...classes) => {
@@ -155,13 +154,18 @@ function startBotResponse() {
  */
 // Create a reusable function for adjusting textarea height
 function adjustInputHeight() {
-    // Reset height to initial to get accurate scrollHeight measurement
-    messageInput.style.height = `${initialInputHeight}px`;
-    // Set height based on content
-    messageInput.style.height = `${messageInput.scrollHeight}px`;
-    // Adjust the border radius based on height
+    // Reset height to "auto" to properly collapse when content is removed
+    messageInput.style.height = "auto";
+
+    // Determine the new height - either the scrollHeight or initialInputHeight, whichever is larger
+    const newHeight = Math.max(initialInputHeight, messageInput.scrollHeight);
+
+    // Set to the appropriate height
+    messageInput.style.height = `${newHeight}px`;
+
+    // Adjust border radius based on whether we're at initial height or not
     document.querySelector(".chat-form").style.borderRadius =
-        messageInput.scrollHeight > initialInputHeight ? "15px" : "32px";
+        newHeight > initialInputHeight ? "15px" : "32px";
 }
 
 // Call the function on page load to handle any existing content
