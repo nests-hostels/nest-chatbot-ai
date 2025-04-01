@@ -11,8 +11,19 @@ const closeChatbot = document.querySelector("#close-chatbot");
 const API_KEY = "AIzaSyCQXdM8mF1o7j7KlC2ue75X37ZIU_cDTVk";
 const API_URL = `https://generativelanguage.googleapis.com/v1/models/gemini-1.5-pro:generateContent?key=${API_KEY}`;
 
-// Initialize user message and file data
+/**
+ * Initialize user message and file data
+ * {
+ *    "conversation_uuid": "NULL or String ex: j312l-mkl321-312kl-k342l",
+ *    "locale": "String ex: it_IT or en_US... The prefered locale of the user",
+ *    "message": "String: The user message with the question or intention...",
+ *    // future implementation
+ *    'user_id'
+ * }
+ */
 const userData = {
+    conversation_uuid: null,
+    locale: 'en', // @todo: browser detect preference or from website HTML lang="" attr
     message: null,
     file: {
         data: null,
@@ -23,6 +34,7 @@ const userData = {
 // Store chat history
 const chatHistory = [];
 const initialInputHeight = messageInput.scrollHeight;
+console.info(initialInputHeight);
 
 // Create message element with dynamic classes and return it
 const createMessageElement = (content, ...classes) => {
@@ -32,7 +44,13 @@ const createMessageElement = (content, ...classes) => {
     return div;
 };
 
-// Generate bot response using API
+/** 
+ * Generate bot response using API
+ * 
+ * @HTMLObject div of the message for get the text
+ * 
+ * @return void()
+ */
 const generateBotResponse = async (incomingMessageDiv) => {
     const messageElement = incomingMessageDiv.querySelector(".message-text");
 
@@ -47,7 +65,7 @@ const generateBotResponse = async (incomingMessageDiv) => {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-            contents: chatHistory,
+            contents: chatHistory, // @todo: define the length of history
         }),
     };
 
@@ -66,6 +84,7 @@ const generateBotResponse = async (incomingMessageDiv) => {
             role: "model",
             parts: [{ text: apiResponseText }],
         });
+        console.info(chatHistory);
     } catch (error) {
         // Handle error in API response
         console.log(error);
@@ -79,17 +98,23 @@ const generateBotResponse = async (incomingMessageDiv) => {
     }
 };
 
-// Handle outgoing user messages
+/** 
+ * Handle outgoing user messages
+ * 
+ * @event e For prevent default
+ * 
+ * @return void() Calling startBotResponse()
+ */
 const handleOutgoingMessage = (e) => {
     e.preventDefault();
-    userData.message = messageInput.value.trim();
+    userData.message = messageInput.value.trim(); // @todo: maxLength?
     messageInput.value = "";
     messageInput.dispatchEvent(new Event("input"));
     fileUploadWrapper.classList.remove("file-uploaded");
 
     // Create and display user message
     const messageContent = `<div class="message-text"></div>
-                          ${userData.file.data ? `<img src="data:${userData.file.mime_type};base64,${userData.file.data}" class="attachment" />` : ""}`;
+        ${userData.file.data ? `<img src="data:${userData.file.mime_type};base64,${userData.file.data}" class="attachment" />` : ""}`;
 
     const outgoingMessageDiv = createMessageElement(messageContent, "user-message");
     outgoingMessageDiv.querySelector(".message-text").innerText = userData.message;
@@ -100,7 +125,9 @@ const handleOutgoingMessage = (e) => {
     startBotResponse();
 };
 
-
+/**
+ * Start the assistant response with the logo and thinking indicator
+ */
 function startBotResponse() {
     const messageContent = `<img class="bot-avatar" src="./img/Ibiza-a21caf.png" alt="Chatbot Logo" width="50" height="50">
         </img>
@@ -116,7 +143,7 @@ function startBotResponse() {
     chatBody.appendChild(incomingMessageDiv);
     chatBody.scrollTo({ top: chatBody.scrollHeight, behavior: "smooth" });
 
-    // Simulate bot response with thinking indicator after a delay
+    // Assistant response with thinking indicator after a delay
     setTimeout(() => {
         generateBotResponse(incomingMessageDiv);
     }, 1600);
