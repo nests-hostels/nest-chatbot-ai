@@ -58,7 +58,6 @@
             <form action="#" class="chat-form">
                 <textarea placeholder="Message..." class="message-input" required></textarea>
                 <div class="chat-controls">
-                    <button type="button" id="emoji-picker" class="material-symbols-outlined">:)</button>
                     <div class="file-upload-wrapper">
                         <input type="file" accept="image/*" id="file-input" hidden />
                         <img src="#" />
@@ -69,6 +68,7 @@
                             <i class="fa-solid fa-times"></i>
                         </button>
                     </div>
+
                     <button type="submit" id="send-message" class="material-symbols-rounded">
                         <fa class="fa-solid fa-paper-plane"></fa>
                     </button>
@@ -77,11 +77,8 @@
         </div>
     </div>
 
-    <!-- Linking Emoji Mart script for emoji picker -->
-    <script src="https://cdn.jsdelivr.net/npm/emoji-mart@latest/dist/browser.js"></script>
-
     <!-- Linking custom script -->
-    <script src="javascript/nest-chatbot.js"></script>
+    <script src="./javascript/nest-chatbot.js"></script>
 </body>
 
 </html>
