@@ -709,8 +709,8 @@ body.show-chatbot .chatbot-popup {
   scrollbar-color: #a4fafc transparent;
 }
 
-.chat-body,
-.chat-form .message-input:hover {
+.chat-form .message-input:hover,
+.chat-body {
   scrollbar-color: #a4fafc transparent;
 }
 
@@ -836,10 +836,10 @@ body.show-chatbot .chatbot-popup {
   border: none;
   max-height: 180px;
   scrollbar-width: thin;
+  scrollbar-color: transparent transparent;
   border-radius: inherit;
   font-size: 0.95rem;
   padding: 14px 0 12px 18px;
-  scrollbar-color: transparent transparent;
 }
 
 .chat-form .chat-controls {
@@ -863,24 +863,24 @@ body.show-chatbot .chatbot-popup {
   transition: 0.2s ease;
 }
 
-.chat-form .chat-controls button:hover,
-body.show-emoji-picker .chat-controls #emoji-picker {
-  color: #0D6F82;
+.chat-form .chat-controls button:hover {
+  color: #53CED1;
   background: #f1f1ff;
 }
 
 .chat-form .chat-controls #send-message {
   color: #fff;
-  display: none;
-  background: #0D6F82;
-}
-
-.chat-form .chat-controls #send-message:hover {
-  background: #0D6F82;
+  /* display: none; */
+  background-color: #ececec;
 }
 
 .chat-form .message-input:valid~.chat-controls #send-message {
-  display: block;
+  /* display: block; */
+  background: #0D6F82;
+}
+
+.chat-form .message-input:valid~.chat-controls #send-message:hover {
+  background: #53CED1;
 }
 
 .chat-form .file-upload-wrapper {
