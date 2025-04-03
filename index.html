@@ -10,6 +10,40 @@
         integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link href="./css/output.css" rel="stylesheet">
+
+    <script>
+        // Define supported languages
+        const supportedLanguages = ['en', 'it', 'es', 'de', 'fr'];
+
+        // Get browser preferred languages
+        const browserLanguages = navigator.languages ||
+            [navigator.language ||
+                navigator.userLanguage ||
+                'en'];
+
+        const userData = {};
+
+        // Find the first browser language that matches our supported languages
+        let matchedLanguage = null;
+
+        // Loop through browser's preferred languages
+        for (const browserLang of browserLanguages) {
+            // Get the primary language code (e.g., 'en-US' -> 'en')
+            const primaryLang = browserLang.split('-')[0].toLowerCase();
+
+            // Check if we support this language
+            if (supportedLanguages.includes(primaryLang)) {
+                matchedLanguage = primaryLang;
+                break;
+            }
+        }
+
+        // Set the matched language or default to English
+        userData.locale = matchedLanguage || 'en';
+        console.log(`Detected browser language: ${userData.locale}`);
+        document.querySelector('html').setAttribute('lang', userData.locale);
+
+    </script>
 </head>
 
 <body class="show-chatbot">
