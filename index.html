@@ -12,7 +12,7 @@
     <link href="./css/output.css" rel="stylesheet">
 </head>
 
-<body class="">
+<body class="show-chatbot">
     <!-- Chatbot Toggler -->
     <button id="chatbot-toggler">
         <span class="">
@@ -55,27 +55,34 @@
 
         <!-- Chatbot Footer -->
         <div class="chat-footer">
-            <form action="#" class="chat-form">
-
-                <textarea placeholder="Message..." class="message-input" minlength="2" rows="1" required></textarea>
-
-                <div class="chat-controls">
-                    <div class="file-upload-wrapper">
-                        <input type="file" accept="image/*" id="file-input" hidden />
-                        <img src="#" />
-                        <button type="button" id="file-upload" class="material-symbols-rounded">
-                            <i class="fa-solid fa-archive"></i>
-                        </button>
-                        <button type="button" id="file-cancel" class="material-symbols-rounded">
-                            <i class="fa-solid fa-times"></i>
-                        </button>
-                    </div>
-
-                    <button type="submit" id="send-message" class="material-symbols-rounded">
-                        <fa class="fa-solid fa-paper-plane"></fa>
+            <div class="chat-container">
+                <div class="">
+                    <button class="language-selector">
+                        <img src="https://flagsapi.com/IT/flat/64.png" class="flag-icon" alt="Language" />
                     </button>
                 </div>
-            </form>
+
+                <form action="#" class="chat-form">
+                    <textarea placeholder="Message..." class="message-input" minlength="2" rows="1" required></textarea>
+
+                    <div class="chat-controls">
+                        <div class="file-upload-wrapper">
+                            <input type="file" accept="image/*" id="file-input" hidden />
+                            <img src="#" />
+                            <button type="button" id="file-upload" class="">
+                                <i class="fa-solid fa-archive"></i>
+                            </button>
+                            <button type="button" id="file-cancel" class="">
+                                <i class="fa-solid fa-times"></i>
+                            </button>
+                        </div>
+
+                        <button type="submit" id="send-message" class="">
+                            <fa class="fa-solid fa-paper-plane"></fa>
+                        </button>
+                    </div>
+                </form>
+            </div>
         </div>
     </div>
 
