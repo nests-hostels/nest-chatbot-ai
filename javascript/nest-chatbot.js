@@ -218,3 +218,60 @@ document.querySelector("#file-upload").addEventListener("click", () => fileInput
 /* Open Close Chat */
 closeChatbot.addEventListener("click", () => document.body.classList.remove("show-chatbot"));
 chatbotToggler.addEventListener("click", () => document.body.classList.toggle("show-chatbot"));
+
+
+
+
+// Language Selector Menu
+const languageToggle = document.getElementById('language-toggle');
+const chatContainer = document.querySelector('.chat-container');
+const languageOptions = document.querySelector('.language-options');
+const languageOptionButtons = document.querySelectorAll('.language-option');
+
+// Open/close language menu
+function toggleLanguageMenu() {
+    chatContainer.classList.toggle('language-menu-open');
+}
+
+// Click language button
+languageToggle.addEventListener('click', function (e) {
+    e.stopPropagation(); // Evita che il click si propaghi al documento
+    languageOptionButtons.forEach(button => {
+        if (userData.locale != button.getAttribute('data-lang')) {
+            button.classList.remove('hidden');
+        }
+    });
+    toggleLanguageMenu();
+});
+
+// Click chosen language
+languageOptionButtons.forEach(button => {
+    button.addEventListener('click', function (e) {
+        e.stopPropagation();
+
+        this.classList.add('hidden');
+
+        // Get the language
+        userData.locale = this.getAttribute('data-lang');
+        const flagUrl = this.querySelector('.flag-icon').src;
+
+        // Update flag
+        languageToggle.querySelector('.flag-icon').src = flagUrl;
+        languageToggle.querySelector('.flag-icon').setAttribute('data-lang', userData.locale);
+
+        // Close menu
+        toggleLanguageMenu();
+    });
+});
+
+// Close menu when click outside
+document.addEventListener('click', function () {
+    if (chatContainer.classList.contains('language-menu-open')) {
+        toggleLanguageMenu();
+    }
+});
+
+// Impedisci che il click sul menu si propaghi al documento
+languageOptions.addEventListener('click', function (e) {
+    e.stopPropagation();
+});

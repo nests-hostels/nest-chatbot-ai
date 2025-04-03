@@ -56,13 +56,35 @@
         <!-- Chatbot Footer -->
         <div class="chat-footer">
             <div class="chat-container">
-                <div class="">
-                    <button class="language-selector">
-                        <img src="https://flagsapi.com/IT/flat/64.png" class="flag-icon" alt="Language" />
+                <div class="language-menu-container">
+                    <button type="button" class="language-selector" id="language-toggle" data-lang="en">
+                        <img src="https://flagsapi.com/GB/flat/64.png" class="flag-icon" alt="English" />
                     </button>
+                    <div class="language-options">
+                        <button class="language-option" data-lang="es">
+                            <img src="https://flagsapi.com/ES/flat/64.png" class="flag-icon" alt="Español" />
+                            <span class="sr-only">Español</span>
+                        </button>
+                        <button class="language-option hidden" data-lang="en">
+                            <img src="https://flagsapi.com/GB/flat/64.png" class="flag-icon" alt="English" />
+                            <span class="sr-only">English</span>
+                        </button>
+                        <button class="language-option" data-lang="it">
+                            <img src="https://flagsapi.com/IT/flat/64.png" class="flag-icon" alt="Italiano" />
+                            <span class="sr-only">Italiano</span>
+                        </button>
+                        <button class="language-option" data-lang="de">
+                            <img src="https://flagsapi.com/DE/flat/64.png" class="flag-icon" alt="Deutsch" />
+                            <span class="sr-only">Deutsch</span>
+                        </button>
+                        <button class="language-option" data-lang="fr">
+                            <img src="https://flagsapi.com/FR/flat/64.png" class="flag-icon" alt="Français" />
+                            <span class="sr-only">Français</span>
+                        </button>
+                    </div>
                 </div>
 
-                <form action="#" class="chat-form">
+                <form action="jsvascript:void(0);" class="chat-form">
                     <textarea placeholder="Message..." class="message-input" minlength="2" rows="1" required></textarea>
 
                     <div class="chat-controls">
