@@ -24,7 +24,7 @@ document.addEventListener('DOMContentLoaded', function () {
      */
     const userData = {
         conversation_uuid: null,
-        locale: 'en', // @todo: browser detect preference or from website HTML lang="" attr
+        locale: document.querySelector('html').getAttribute('lang') ?? 'en',
         message: null,
         file: {
             data: null,
@@ -254,6 +254,38 @@ document.addEventListener('DOMContentLoaded', function () {
     const chatContainer = document.querySelector('.chat-container');
     const languageOptions = document.querySelector('.language-options');
     const languageOptionButtons = document.querySelectorAll('.language-option');
+
+    /**
+     * Imposta la bandiera corretta nel selettore principale in base alla lingua corrente
+     */
+    function initializeLanguageSelector() {
+        // Verifica che userData esista e abbia una proprietà locale
+        if (userData.locale) {
+            const currentLocale = userData.locale;
+
+            // Cerca l'opzione lingua che corrisponde alla locale corrente
+            const matchingOption = document.querySelector(`.language-option[data-lang="${currentLocale}"]`);
+
+            if (matchingOption) {
+                // Ottieni l'URL della bandiera e l'attributo alt
+                const flagUrl = matchingOption.querySelector('.flag-icon').src;
+                const flagAlt = matchingOption.querySelector('.flag-icon').getAttribute('alt');
+
+                // Imposta la bandiera nel selettore principale
+                const mainFlag = languageToggle.querySelector('.flag-icon');
+                mainFlag.src = flagUrl;
+                mainFlag.setAttribute('data-lang', currentLocale);
+                mainFlag.setAttribute('alt', flagAlt);
+
+                // Nascondi questa opzione nel selettore
+                matchingOption.classList.add('hidden');
+
+                // Aggiorna anche il placeholder del textarea
+                updatePlaceholder(currentLocale);
+            }
+        }
+    }
+    initializeLanguageSelector();
 
     // Funzione per aprire/chiudere il menu lingue
     function toggleLanguageMenu() {
