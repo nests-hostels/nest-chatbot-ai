@@ -68,6 +68,23 @@ const generateBotResponse = async (incomingMessageDiv) => {
         }),
     };
 
+
+    // DEBUG
+    messageElement.innerText = 'Received';
+    // Add Assistant response to chat history
+    chatHistory.push({
+        role: "model",
+        parts: [{ text: 'Received' }],
+    });
+
+    userData.file = {};
+    incomingMessageDiv.classList.remove("thinking");
+    chatBody.scrollTo({ top: chatBody.scrollHeight, behavior: "smooth" });
+
+    userData.conversation_uuid = (userData.conversation_uuid == null) ? new Date().getTime() : userData.conversation_uuid;
+
+    return true;
+    // DEBUG
     try {
         // Fetch bot response from API
         const response = await fetch(API_URL, requestOptions);
@@ -78,12 +95,11 @@ const generateBotResponse = async (incomingMessageDiv) => {
         const apiResponseText = data.candidates[0].content.parts[0].text.replace(/\*\*(.*?)\*\*/g, "$1").trim();
         messageElement.innerText = apiResponseText;
 
-        // Add bot response to chat history
+        // Add Assistant response to chat history
         chatHistory.push({
             role: "model",
             parts: [{ text: apiResponseText }],
         });
-        console.info(chatHistory);
     } catch (error) {
         // Handle error in API response
         console.log(error);
@@ -107,6 +123,9 @@ const generateBotResponse = async (incomingMessageDiv) => {
 const handleOutgoingMessage = (e) => {
     e.preventDefault();
     userData.message = messageInput.value.trim(); // @todo: maxLength?
+    if (userData.message.length < 2) {
+        return false;
+    }
     messageInput.value = "";
     messageInput.dispatchEvent(new Event("input"));
     fileUploadWrapper.classList.remove("file-uploaded");
@@ -116,7 +135,15 @@ const handleOutgoingMessage = (e) => {
         ${userData.file.data ? `<img src="data:${userData.file.mime_type};base64,${userData.file.data}" class="attachment" />` : ""}`;
 
     const outgoingMessageDiv = createMessageElement(messageContent, "user-message");
-    outgoingMessageDiv.querySelector(".message-text").innerText = userData.message;
+
+    // DEBUG
+    outgoingMessageDiv.querySelector(".message-text").innerHTML = `<code class="code">{ <br/>
+        "conversation_uuid": ${userData.conversation_uuid},<br/>
+        "message": "${userData.message}",<br/>
+        "locale": "${userData.locale}",<br/>
+    }</code>`;
+    // DEBUG
+
     chatBody.appendChild(outgoingMessageDiv);
     chatBody.scrollTo({ top: chatBody.scrollHeight, behavior: "smooth" });
 
@@ -221,57 +248,92 @@ chatbotToggler.addEventListener("click", () => document.body.classList.toggle("s
 
 
 
+document.addEventListener('DOMContentLoaded', function () {
+    const languageToggle = document.getElementById('language-toggle');
+    const chatContainer = document.querySelector('.chat-container');
+    const languageOptions = document.querySelector('.language-options');
+    const languageOptionButtons = document.querySelectorAll('.language-option');
 
-// Language Selector Menu
-const languageToggle = document.getElementById('language-toggle');
-const chatContainer = document.querySelector('.chat-container');
-const languageOptions = document.querySelector('.language-options');
-const languageOptionButtons = document.querySelectorAll('.language-option');
+    // Funzione per aprire/chiudere il menu lingue
+    function toggleLanguageMenu() {
+        const isOpening = !chatContainer.classList.contains('language-menu-open');
 
-// Open/close language menu
-function toggleLanguageMenu() {
-    chatContainer.classList.toggle('language-menu-open');
-}
+        chatContainer.classList.toggle('language-menu-open');
 
-// Click language button
-languageToggle.addEventListener('click', function (e) {
-    e.stopPropagation(); // Evita che il click si propaghi al documento
+        // Se stiamo aprendo, mostra le lingue disponibili
+        if (isOpening) {
+            languageOptionButtons.forEach(button => {
+                if (userData.locale !== button.getAttribute('data-lang')) {
+                    button.classList.remove('hidden');
+                } else {
+                    button.classList.add('hidden');
+                }
+            });
+        }
+    }
+
+    // Click sul bottone della lingua
+    languageToggle.addEventListener('click', function (e) {
+        e.stopPropagation();
+        toggleLanguageMenu();
+    });
+
+    // Click sulle opzioni lingua
     languageOptionButtons.forEach(button => {
-        if (userData.locale != button.getAttribute('data-lang')) {
-            button.classList.remove('hidden');
+        button.addEventListener('click', function (e) {
+            e.stopPropagation();
+
+            // Nascondi questa opzione
+            this.classList.add('hidden');
+
+            // Mostra la lingua precedentemente selezionata
+            const previousLang = userData.locale;
+            const previousButton = document.querySelector(`.language-option[data-lang="${previousLang}"]`);
+            if (previousButton) {
+                previousButton.classList.remove('hidden');
+            }
+
+            // Aggiorna la lingua selezionata
+            userData.locale = this.getAttribute('data-lang');
+            const flagUrl = this.querySelector('.flag-icon').src;
+
+            // Aggiorna la bandiera principale
+            const mainFlag = languageToggle.querySelector('.flag-icon');
+            mainFlag.src = flagUrl;
+            mainFlag.setAttribute('data-lang', userData.locale);
+            mainFlag.setAttribute('alt', this.querySelector('.flag-icon').getAttribute('alt'));
+
+            // Chiudi il menu
+            toggleLanguageMenu();
+
+            // Aggiorna il placeholder del textarea se necessario
+            updatePlaceholder(userData.locale);
+        });
+    });
+
+    // Chiudi il menu quando si clicca all'esterno
+    document.addEventListener('click', function () {
+        if (chatContainer.classList.contains('language-menu-open')) {
+            toggleLanguageMenu();
         }
     });
-    toggleLanguageMenu();
-});
 
-// Click chosen language
-languageOptionButtons.forEach(button => {
-    button.addEventListener('click', function (e) {
+    // Impedisci che il click sul menu si propaghi al documento
+    languageOptions.addEventListener('click', function (e) {
         e.stopPropagation();
-
-        this.classList.add('hidden');
-
-        // Get the language
-        userData.locale = this.getAttribute('data-lang');
-        const flagUrl = this.querySelector('.flag-icon').src;
-
-        // Update flag
-        languageToggle.querySelector('.flag-icon').src = flagUrl;
-        languageToggle.querySelector('.flag-icon').setAttribute('data-lang', userData.locale);
-
-        // Close menu
-        toggleLanguageMenu();
     });
-});
 
-// Close menu when click outside
-document.addEventListener('click', function () {
-    if (chatContainer.classList.contains('language-menu-open')) {
-        toggleLanguageMenu();
+    // Funzione per aggiornare il placeholder in base alla lingua
+    function updatePlaceholder(locale) {
+        const messageInput = document.querySelector('.message-input');
+        const placeholders = {
+            'en': 'Message...',
+            'it': 'Messaggio...',
+            'es': 'Mensaje...',
+            'de': 'Nachricht...',
+            'fr': 'Message...'
+        };
+
+        messageInput.placeholder = placeholders[locale] || placeholders['en'];
     }
-});
-
-// Impedisci che il click sul menu si propaghi al documento
-languageOptions.addEventListener('click', function (e) {
-    e.stopPropagation();
 });
