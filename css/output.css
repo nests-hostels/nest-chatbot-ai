@@ -554,6 +554,18 @@ video {
   display: none;
 }
 
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
 .collapse {
   visibility: collapse;
 }
@@ -826,9 +838,30 @@ body.show-chatbot .chatbot-popup {
   align-items: center;
   gap: 10px;
   width: 100%;
+  transition: all 0.3s ease;
 }
 
-.chat-footer .language-selector {
+.chat-footer .chat-form {
+  flex-grow: 1;
+  display: flex;
+  align-items: center;
+  position: relative;
+  background: #fff;
+  border-radius: 32px;
+  outline: 1px solid #CCCCE5;
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.06);
+  transition: width 0.3s ease;
+}
+
+.language-menu-container {
+  display: flex;
+  z-index: 10;
+  gap: 8px;
+  transition: all 0.3s ease;
+}
+
+.chat-footer .language-selector,
+.chat-footer .language-menu-container .language-option {
   height: 35px;
   width: 35px;
   border: none;
@@ -840,23 +873,98 @@ body.show-chatbot .chatbot-popup {
   flex-shrink: 0;
   box-shadow: 0 0 8px rgba(0, 0, 0, 0.06);
   outline: 1px solid #CCCCE5;
-  transition: 0.2s ease;
+  transition: all 0.2s ease;
   position: relative;
-  /* Added for proper child positioning */
+  z-index: 2;
 }
 
-.chat-footer .language-selector:hover {
-  background: #f1f1ff;
-  transform: scale(1.05);
+.chat-footer .language-menu-container .language-selector:hover,
+.chat-footer .language-menu-container .language-option:hover,
+.chat-footer .language-menu-container .language-selector:focus,
+.chat-footer .language-menu-container .language-option:focus {
+  transform: scale(1.15);
 }
 
-.chat-footer .language-selector .flag-icon {
+.chat-footer .language-menu-container .flag-icon {
   width: 40px;
-  height: 55px;
+  height: 57px;
   position: absolute;
-  top: -10px;
+  top: -11px;
   left: -2px;
   max-width: unset;
+}
+
+.language-options {
+  display: flex;
+  gap: 8px;
+  max-width: 0;
+  overflow: hidden;
+  transition: all 0.3s ease;
+  opacity: 0;
+}
+
+.chat-container.language-menu-open .language-options {
+  max-width: 300px;
+  /* Valore sufficientemente grande per contenere tutte le opzioni */
+  opacity: 1;
+}
+
+.chat-container.language-menu-open .chat-form {
+  width: calc(100% - 220px);
+  /* Valore da regolare in base al numero di lingue */
+}
+
+/* Screen reader only class */
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+.hidden {
+  display: none !important;
+}
+
+/* Animazione per l'entrata delle opzioni di lingua */
+
+.language-option {
+  transform: scale(0.8);
+  transition: transform 0.3s ease, opacity 0.3s ease;
+  opacity: 0;
+}
+
+.chat-container.language-menu-open .language-option {
+  transform: scale(1);
+  opacity: 1;
+}
+
+/* Aggiungiamo un ritardo progressivo per far apparire le lingue in sequenza */
+
+.chat-container.language-menu-open .language-option:nth-child(1) {
+  transition-delay: 0.05s;
+}
+
+.chat-container.language-menu-open .language-option:nth-child(2) {
+  transition-delay: 0.1s;
+}
+
+.chat-container.language-menu-open .language-option:nth-child(3) {
+  transition-delay: 0.15s;
+}
+
+.chat-container.language-menu-open .language-option:nth-child(4) {
+  transition-delay: 0.2s;
+}
+
+.chat-container.language-menu-open .language-option:nth-child(5) {
+  transition-delay: 0.25s;
 }
 
 .chat-footer .chat-form {
