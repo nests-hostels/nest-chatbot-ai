@@ -298,7 +298,6 @@ body.show-chatbot .chatbot-popup {
     display: flex;
     gap: 8px;
     max-width: 0;
-    overflow: hidden;
     transition: all 0.3s ease;
     opacity: 0;
 }
@@ -467,17 +466,6 @@ body.show-chatbot .chatbot-popup {
 .chat-form .file-upload-wrapper.file-uploaded img,
 .chat-form .file-upload-wrapper.file-uploaded:hover #file-cancel {
     display: block;
-}
-
-em-emoji-picker {
-    position: absolute;
-    left: 50%;
-    top: -337px;
-    width: 100%;
-    max-width: 350px;
-    visibility: hidden;
-    max-height: 330px;
-    transform: translateX(-50%);
 }
 
 body.show-emoji-picker em-emoji-picker {
