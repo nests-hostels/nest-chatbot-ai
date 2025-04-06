@@ -79,11 +79,17 @@
 
         <!-- Chatbot Body -->
         <div class="chat-body">
-            <div class="message bot-message">
-                <img class="bot-avatar" src="./img/Ibiza-a21caf.png" alt="Chatbot Logo" width="50" height="50">
-                </img>
+            <div class="message bot-message hidden" id="firstBotMessage">
+                <img class="bot-avatar" src="./img/Ibiza-a21caf.png" alt="Chatbot Logo" width="50" height="50" />
                 <!-- prettier-ignore -->
                 <div class="message-text"> Hey there <br /> How can I help you today? </div>
+            </div>
+
+            <div class="chat-loader h-full flex justify-center items-center transition-all" id="chatLoader">
+                <svg width="180" height="180" viewBox="0 0 180 180" class="circular-progress">
+                    <circle class="bg"></circle>
+                    <circle class="fg"></circle>
+                </svg>
             </div>
         </div>
 

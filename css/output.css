@@ -586,8 +586,20 @@ video {
   display: none;
 }
 
+.h-full {
+  height: 100%;
+}
+
 .flex-col {
   flex-direction: column;
+}
+
+.items-center {
+  align-items: center;
+}
+
+.justify-center {
+  justify-content: center;
 }
 
 .border {
@@ -597,6 +609,12 @@ video {
 .text-secondary {
   --tw-text-opacity: 1;
   color: rgb(13 111 130 / var(--tw-text-opacity, 1));
+}
+
+.transition-all {
+  transition-property: all;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 150ms;
 }
 
 * {
@@ -727,6 +745,70 @@ body.show-chatbot .chatbot-popup {
   flex-direction: column;
   scrollbar-width: thin;
   scrollbar-color: #a4fafc transparent;
+}
+
+/* Chat Loader */
+
+.circular-progress {
+  --size: 180px;
+  --half-size: calc(var(--size) / 2);
+  --stroke-width: 6px;
+  --radius: calc((var(--size) - var(--stroke-width)) / 2);
+  --circumference: calc(var(--radius) * pi * 2);
+  --dash: calc((var(--progress) * var(--circumference)) / 100);
+  background: url('../img/logotipo-nests-tenerife.png') no-repeat center/111px;
+  transition: all 0.3s linear;
+}
+
+.logo-animation {
+  background-size: 150px;
+}
+
+.loader-disappear {
+  transform: scale(0);
+}
+
+.circular-progress.progress-animation {
+  animation: progress-animation 2s linear 0s 1 forwards;
+}
+
+.circular-progress circle {
+  cx: var(--half-size);
+  cy: var(--half-size);
+  r: var(--radius);
+  stroke-width: var(--stroke-width);
+  fill: none;
+  stroke-linecap: round;
+}
+
+.circular-progress circle.bg {
+  stroke: #ddd;
+}
+
+.circular-progress circle.fg {
+  transform: rotate(-90deg);
+  transform-origin: var(--half-size) var(--half-size);
+  stroke-dasharray: var(--dash) calc(var(--circumference) - var(--dash));
+  transition: stroke-dasharray 0.3s linear 0s;
+  stroke: #53CED1;
+}
+
+@property --progress {
+  syntax: "<number>";
+
+  inherits: false;
+
+  initial-value: 0;
+}
+
+@keyframes progress-animation {
+  from {
+    --progress: 0;
+  }
+
+  to {
+    --progress: 100;
+  }
 }
 
 .chat-form .message-input:hover,

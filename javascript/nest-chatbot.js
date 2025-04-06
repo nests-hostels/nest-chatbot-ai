@@ -245,7 +245,20 @@ document.addEventListener('DOMContentLoaded', function () {
 
     /* Open Close Chat */
     closeChatbot.addEventListener("click", () => document.body.classList.remove("show-chatbot"));
-    chatbotToggler.addEventListener("click", () => document.body.classList.toggle("show-chatbot"));
+    chatbotToggler.addEventListener("click", () => {
+        document.body.classList.toggle("show-chatbot");
+
+        // start animation
+        document.querySelector('#chatLoader .circular-progress').classList.add('progress-animation');
+        // after it finish - 2seconds, animate the logo and show Messages!
+        setTimeout(() => {
+            document.querySelector('#chatLoader .circular-progress').classList.add('logo-animation');
+            setTimeout(() => {
+                document.querySelector('#chatLoader').classList.add('loader-disappear');
+                document.querySelector('#firstBotMessage').classList.remove('hidden');
+            }, 500);
+        }, 2000);
+    });
 
 
 
