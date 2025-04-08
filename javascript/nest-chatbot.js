@@ -1,3 +1,12 @@
+
+/**
+ * Nest Chatbot - Main Entry Point
+ * Initializes and coordinates all chatbot modules
+ */
+
+// Import modules
+import { animateTextTyping } from './modules/nest-chatbot-typing.js';
+
 document.addEventListener('DOMContentLoaded', function () {
     const chatBody = document.querySelector(".chat-body");
     const messageInput = document.querySelector(".message-input");
@@ -71,7 +80,8 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
         // DEBUG
-        messageElement.innerText = 'Received';
+        messageElement.innerHTML = 'Received';
+        animateTextTyping(messageElement);
         // Add Assistant response to chat history
         chatHistory.push({
             role: "model",
@@ -288,6 +298,8 @@ document.addEventListener('DOMContentLoaded', function () {
                         requestAnimationFrame(() => {
                             firstBotMessage.classList.add('visible');
                         });
+
+                        animateTextTyping(firstBotMessage.querySelector(".message-text"), "¡Hola! Ciao, Hallo, Salut, Привiт... 👋 <br />Hi, I'm Germán your AI assistant and agent for everything about Nests Hostels! <br/>How can I help you today?");
                     }, 900); // Delay showing message slightly
                 }, 800); // Give time for logo animation to be noticed
             }

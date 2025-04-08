@@ -1263,3 +1263,5 @@ body.show-emoji-picker em-emoji-picker {
     opacity: 0;
   }
 }
+
+/* @import "./modules/nest-chatbot-typing"; */
