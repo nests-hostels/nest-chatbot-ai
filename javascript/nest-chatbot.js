@@ -248,17 +248,51 @@ document.addEventListener('DOMContentLoaded', function () {
     chatbotToggler.addEventListener("click", () => {
         document.body.classList.toggle("show-chatbot");
 
-        // start animation
-        document.querySelector('#chatLoader .circular-progress').classList.add('progress-animation');
-        // after it finish - 2seconds, animate the logo and show Messages!
-        setTimeout(() => {
-            document.querySelector('#chatLoader .circular-progress').classList.add('logo-animation');
-            setTimeout(() => {
-                document.querySelector('#chatLoader').classList.add('loader-disappear');
-                document.querySelector('#firstBotMessage').classList.remove('hidden');
-            }, 500);
-        }, 2000);
+        // Start Animation
+        // if (document.body.classList.contains("show-chatbot")) {
+        startAnimationSequence();
     });
+
+
+
+    // Animation Loader of Chat Bot
+    function startAnimationSequence() {
+        const circularProgress = document.querySelector('#chatLoader .circular-progress');
+        const chatLoader = document.querySelector('#chatLoader');
+        const firstBotMessage = document.querySelector('#firstBotMessage');
+
+        // Start the animation sequence
+        circularProgress.classList.add('animate-sequence');
+
+        // Add a pulse animation while the progress is running
+        circularProgress.classList.add('pulse-animation');
+
+        // Using the animationend event to sequence animations
+        circularProgress.addEventListener('animationend', function (e) {
+            // Only proceed if it was the progress-animation that ended
+            if (e.animationName === 'progress-animation') {
+                // Remove pulse and start logo animation
+                // circularProgress.classList.remove('pulse-animation');
+                circularProgress.classList.add('logo-animation');
+
+                // After a short delay, hide the loader and show the message
+                setTimeout(() => {
+                    chatLoader.classList.add('hidden-loader');
+
+                    // After loader starts disappearing, show the first message
+                    setTimeout(() => {
+                        chatLoader.classList.add('hidden');
+                        firstBotMessage.classList.add('visible');
+
+                        // Trigger visibility animation after DOM update
+                        requestAnimationFrame(() => {
+                            firstBotMessage.classList.add('visible');
+                        });
+                    }, 900); // Delay showing message slightly
+                }, 800); // Give time for logo animation to be noticed
+            }
+        });
+    }
 
 
 

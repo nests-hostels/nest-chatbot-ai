@@ -566,6 +566,10 @@ video {
   border-width: 0;
 }
 
+.visible {
+  visibility: visible;
+}
+
 .collapse {
   visibility: collapse;
 }
@@ -749,6 +753,8 @@ body.show-chatbot .chatbot-popup {
 
 /* Chat Loader */
 
+/* Circular Progress Enhancements */
+
 .circular-progress {
   --size: 180px;
   --half-size: calc(var(--size) / 2);
@@ -757,19 +763,9 @@ body.show-chatbot .chatbot-popup {
   --circumference: calc(var(--radius) * pi * 2);
   --dash: calc((var(--progress) * var(--circumference)) / 100);
   background: url('../img/logotipo-nests-tenerife.png') no-repeat center/111px;
-  transition: all 0.3s linear;
-}
-
-.logo-animation {
-  background-size: 150px;
-}
-
-.loader-disappear {
-  transform: scale(0);
-}
-
-.circular-progress.progress-animation {
-  animation: progress-animation 2s linear 0s 1 forwards;
+  opacity: 1;
+  transform: scale(1);
+  transition: all 2s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
 .circular-progress circle {
@@ -793,6 +789,54 @@ body.show-chatbot .chatbot-popup {
   stroke: #53CED1;
 }
 
+/* Initial state of the first bot message - hidden but prepared for animation */
+
+#firstBotMessage {
+  opacity: 0;
+  height: 0;
+  transform: translateX(15px);
+  transition: opacity 1s ease, transform 1s ease;
+}
+
+/* Make first bot message visible with animation */
+
+#firstBotMessage.visible {
+  opacity: 1;
+  height: auto;
+  transform: translateY(0);
+}
+
+/* Chat loader container animation */
+
+.chat-loader {
+  opacity: 1;
+  transform: scale(1);
+  transition: opacity 0.8s ease, transform 0.8s ease;
+}
+
+.chat-loader.hidden-loader {
+  opacity: 0;
+  transform: scale(0.8);
+  pointer-events: none;
+}
+
+/* Animation sequence classes */
+
+.circular-progress.animate-sequence circle.fg {
+  animation: progress-animation 2.5s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+.circular-progress.logo-animation {
+  background-size: 150px;
+}
+
+.circular-progress.animate-sequence circle.bg {
+  transition: opacity 0.3s ease;
+  opacity: 0.3;
+}
+
+/* Enhanced progress animation with smoother easing */
+
 @property --progress {
   syntax: "<number>";
 
@@ -802,13 +846,39 @@ body.show-chatbot .chatbot-popup {
 }
 
 @keyframes progress-animation {
-  from {
+  0% {
     --progress: 0;
+    stroke-dasharray: 0 var(--circumference);
   }
 
-  to {
-    --progress: 100;
+  60% {
+    --progress: 80;
   }
+
+  100% {
+    --progress: 100;
+    stroke-dasharray: var(--circumference) 0;
+  }
+}
+
+/* Pulse animation for the loader logo */
+
+@keyframes pulse-logo {
+  0% {
+    transform: scale(1);
+  }
+
+  50% {
+    transform: scale(1.08);
+  }
+
+  100% {
+    transform: scale(1);
+  }
+}
+
+.circular-progress.pulse-animation {
+  animation: pulse-logo 1.2s ease-in-out infinite;
 }
 
 .chat-form .message-input:hover,
@@ -980,6 +1050,7 @@ body.show-chatbot .chatbot-popup {
   display: flex;
   gap: 8px;
   max-width: 0;
+  overflow: hidden;
   transition: all 0.3s ease;
   opacity: 0;
 }
@@ -988,6 +1059,7 @@ body.show-chatbot .chatbot-popup {
   max-width: 300px;
   /* Valore sufficientemente grande per contenere tutte le opzioni */
   opacity: 1;
+  overflow: inherit;
 }
 
 .chat-container.language-menu-open .chat-form {

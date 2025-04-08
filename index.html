@@ -46,7 +46,7 @@
     </script>
 </head>
 
-<body class="show-chatbot">
+<body class="">
     <!-- Chatbot Toggler -->
     <button id="chatbot-toggler">
         <span class="">
@@ -79,16 +79,16 @@
 
         <!-- Chatbot Body -->
         <div class="chat-body">
-            <div class="message bot-message hidden" id="firstBotMessage">
+            <div class="message bot-message" id="firstBotMessage">
                 <img class="bot-avatar" src="./img/Ibiza-a21caf.png" alt="Chatbot Logo" width="50" height="50" />
                 <!-- prettier-ignore -->
-                <div class="message-text"> Hey there <br /> How can I help you today? </div>
+                <div class="message-text"> Hey there 👋<br /> How can I help you today? </div>
             </div>
 
             <div class="chat-loader h-full flex justify-center items-center transition-all" id="chatLoader">
                 <svg width="180" height="180" viewBox="0 0 180 180" class="circular-progress">
-                    <circle class="bg"></circle>
-                    <circle class="fg"></circle>
+                    <circle class="bg" cx="90" cy="90" r="85"></circle>
+                    <circle class="fg" cx="90" cy="90" r="85"></circle>
                 </svg>
             </div>
         </div>
