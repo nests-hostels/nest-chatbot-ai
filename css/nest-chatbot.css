@@ -359,6 +359,7 @@ body.show-chatbot .chatbot-popup {
     display: flex;
     gap: 8px;
     max-width: 0;
+    overflow: hidden;
     transition: all 0.3s ease;
     opacity: 0;
 }
@@ -367,6 +368,7 @@ body.show-chatbot .chatbot-popup {
     max-width: 300px;
     /* Valore sufficientemente grande per contenere tutte le opzioni */
     opacity: 1;
+    overflow: inherit;
 }
 
 .chat-container.language-menu-open .chat-form {
