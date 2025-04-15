@@ -14,16 +14,16 @@ export function animateTextTyping(node, _text = '') {
 
     const addNextChar = (i) => {
         let nextChar = chars[i] === "\n" ? "<br>" : chars[i];
-        node.innerHTML += nextChar; // if sorrounded by span, create a cursor
+        node.innerHTML += nextChar; // if sorrounded by <span>....</span>, create a cursor
 
         if (i < chars.length - 1) {
             setTimeout(function () {
                 addNextChar(i + 1);
-            }, 20 + Math.random() * 100);
+            }, 5 + Math.random() * 15); // 5-30ms
         } else {
             setTimeout(function () {
                 node.classList.remove("typing");
-            }, 20 + Math.random() * 150);
+            }, 10 + Math.random() * 30); // 10-60ms
         }
     }
 
