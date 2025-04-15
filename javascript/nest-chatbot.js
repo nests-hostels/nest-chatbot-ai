@@ -18,8 +18,12 @@ document.addEventListener('DOMContentLoaded', function () {
     const closeChatbot = document.querySelector("#close-chatbot");
 
     // API setup
-    const API_KEY = "AIzaSyAZSBaSwqPQ4lB4BDvvhta21gbTy0XdfA8";
-    const API_URL = `https://generativelanguage.googleapis.com/v1/models/gemini-1.5-pro:generateContent?key=${API_KEY}`;
+    // const API_KEY = "AIzaSyAZSBaSwqPQ4lB4BDvvhta21gbTy0XdfA8"; // Gemini
+    // const API_URL = `https://generativelanguage.googleapis.com/v1/models/gemini-1.5-pro:generateContent?key=${API_KEY}`; // Gemini
+    const API_KEY = "VF.DM.6778270709e83f2e9815d3f9.nm4tWtFsHI1jZNWt";
+    const API_URL = `https://general-runtime.voiceflow.com/knowledge-base/query`; // Knowledge base
+    //const API_URL = `https://general-runtime.voiceflow.com/state/user/Artur/interact`; // Dialog Flow
+
 
     /**
      * Initialize user message and file data
@@ -61,6 +65,7 @@ document.addEventListener('DOMContentLoaded', function () {
      * @return void()
      */
     const generateBotResponse = async (incomingMessageDiv) => {
+        // The Bot Answer HTML Message Element
         const messageElement = incomingMessageDiv.querySelector(".message-text");
 
         // Add user message to chat history
@@ -69,13 +74,29 @@ document.addEventListener('DOMContentLoaded', function () {
             parts: [{ text: userData.message }, ...(userData.file.data ? [{ inline_data: userData.file }] : [])],
         });
 
+        const requestBody = {
+            //contents: chatHistory, // Gemini // @todo: define the length of history
+            // Voiceflow:
+            "chunkLimit": 3,
+            "synthesis": true,
+            "question": userData.message, // "How many nets hostels there are?"
+            "settings": {
+                "model": "gpt-3.5-turbo", //  claude-3.5-sonnet
+                "temperature": 0.3,
+                "system": "You are an AI FAQ assistant. Information will be provided to help answer the user's questions. Always summarize you response to be as brief and concise as possible, keeping responses under a couple of sentences. Do not reference the provided material directly in your response."
+            }
+        };
+        console.info('requestBody:', requestBody);
+
         // API request options
         const requestOptions = {
             method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-                contents: chatHistory, // @todo: define the length of history
-            }),
+            headers: {
+                "Authorization": API_KEY, // Voiceflow
+                "Accept": "application/json", // Voiceflow
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(requestBody),
         };
 
 
@@ -102,8 +123,12 @@ document.addEventListener('DOMContentLoaded', function () {
             const data = await response.json();
             if (!response.ok) throw new Error(data.error.message);
 
+            console.info('response: ', response);
+            console.info('data: ', data);
+
             // Extract and display bot's response text
-            const apiResponseText = data.candidates[0].content.parts[0].text.replace(/\*\*(.*?)\*\*/g, "$1").trim();
+            // const apiResponseText = data.candidates[0].content.parts[0].text.replace(/\*\*(.*?)\*\*/g, "$1").trim(); // Gemini 
+            const apiResponseText = data.output;
             messageElement.innerHTML = apiResponseText;
             animateTextTyping(messageElement);
 
