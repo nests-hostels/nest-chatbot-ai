@@ -18,7 +18,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const closeChatbot = document.querySelector("#close-chatbot");
 
     // API setup
-    const API_KEY = "AIzaSyCQXdM8mF1o7j7KlC2ue75X37ZIU_cDTVk";
+    const API_KEY = "AIzaSyAZSBaSwqPQ4lB4BDvvhta21gbTy0XdfA8";
     const API_URL = `https://generativelanguage.googleapis.com/v1/models/gemini-1.5-pro:generateContent?key=${API_KEY}`;
 
     /**
@@ -80,21 +80,21 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
         // DEBUG
-        messageElement.innerHTML = 'Received';
-        animateTextTyping(messageElement);
-        // Add Assistant response to chat history
-        chatHistory.push({
-            role: "model",
-            parts: [{ text: 'Received' }],
-        });
+        // messageElement.innerHTML = 'Received';
+        // animateTextTyping(messageElement);
+        // // Add Assistant response to chat history
+        // chatHistory.push({
+        //     role: "model",
+        //     parts: [{ text: 'Received' }],
+        // });
 
-        userData.file = {};
-        incomingMessageDiv.classList.remove("thinking");
-        chatBody.scrollTo({ top: chatBody.scrollHeight, behavior: "smooth" });
+        // userData.file = {};
+        // incomingMessageDiv.classList.remove("thinking");
+        // chatBody.scrollTo({ top: chatBody.scrollHeight, behavior: "smooth" });
 
-        userData.conversation_uuid = (userData.conversation_uuid == null) ? new Date().getTime() : userData.conversation_uuid;
+        // userData.conversation_uuid = (userData.conversation_uuid == null) ? new Date().getTime() : userData.conversation_uuid;
 
-        return true;
+        // return true;
         // DEBUG
         try {
             // Fetch bot response from API
@@ -148,12 +148,13 @@ document.addEventListener('DOMContentLoaded', function () {
         const outgoingMessageDiv = createMessageElement(messageContent, "user-message");
 
         // DEBUG
-        outgoingMessageDiv.querySelector(".message-text").innerHTML = `<code class="code">{ <br/>
-        "conversation_uuid": ${userData.conversation_uuid},<br/>
-        "message": "${userData.message}",<br/>
-        "locale": "${userData.locale}",<br/>
-    }</code>`;
+        //     outgoingMessageDiv.querySelector(".message-text").innerHTML = `<code class="code">{ <br/>
+        //     "conversation_uuid": ${userData.conversation_uuid},<br/>
+        //     "message": "${userData.message}",<br/>
+        //     "locale": "${userData.locale}",<br/>
+        // }</code>`;
         // DEBUG
+        outgoingMessageDiv.querySelector(".message-text").innerHTML = userData.message;
 
         chatBody.appendChild(outgoingMessageDiv);
         chatBody.scrollTo({ top: chatBody.scrollHeight, behavior: "smooth" });
