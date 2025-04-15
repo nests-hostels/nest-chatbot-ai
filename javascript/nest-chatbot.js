@@ -77,7 +77,7 @@ document.addEventListener('DOMContentLoaded', function () {
         const requestBody = {
             //contents: chatHistory, // Gemini // @todo: define the length of history
             // Voiceflow:
-            "chunkLimit": 3,
+            "chunkLimit": 15,
             "synthesis": true,
             "question": userData.message, // "How many nets hostels there are?"
             "settings": {
