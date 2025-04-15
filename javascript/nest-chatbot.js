@@ -104,7 +104,8 @@ document.addEventListener('DOMContentLoaded', function () {
 
             // Extract and display bot's response text
             const apiResponseText = data.candidates[0].content.parts[0].text.replace(/\*\*(.*?)\*\*/g, "$1").trim();
-            messageElement.innerText = apiResponseText;
+            messageElement.innerHTML = apiResponseText;
+            animateTextTyping(messageElement);
 
             // Add Assistant response to chat history
             chatHistory.push({
